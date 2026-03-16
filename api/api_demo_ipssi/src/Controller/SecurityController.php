@@ -109,10 +109,12 @@ class SecurityController extends AbstractController
         // Sauvegarde en base de donnees
         $this->userRepository->save($user);
 
+        $userData = method_exists($user, 'toArray') ? $user->toArray() : ['id' => $user->getId(), 'email' => $user->getEmail()];
+
         return $this->json([
             'success' => true,
             'message' => 'Utilisateur cree avec succes',
-            'data' => $user->toArray(),
+            'data' => $userData,
         ], Response::HTTP_CREATED);
     }
 
@@ -159,18 +161,21 @@ class SecurityController extends AbstractController
     public function me(): JsonResponse
     {
         // getUser() retourne l'utilisateur connecte grace au token JWT
+        /** @var User|null $user */
         $user = $this->getUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             return $this->json([
                 'success' => false,
                 'message' => 'Non authentifie',
             ], Response::HTTP_UNAUTHORIZED);
         }
 
+        $userData = $user->toArray();
+
         return $this->json([
             'success' => true,
-            'data' => $user->toArray(),
+            'data' => $userData,
         ]);
     }
 }

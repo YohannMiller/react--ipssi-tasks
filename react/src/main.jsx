@@ -6,6 +6,8 @@ import JwtContextProvider from "./contexts/JwtContext.jsx";
 import "./index.css";
 import PageAccueil from "./pages/pageAccueil/PageAccueil.jsx";
 import PageTasks from "./pages/pageTasks/PageTasks.jsx";
+import PageRegister from "./pages/pageRegister/PageRegister.jsx";
+import PageNouvelleTask from "./pages/pageNouvelleTask/PageNouvelleTask.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,18 @@ const router = createBrowserRouter([
     errorElement: <p>500</p>,
   },
   {
+    path: "/register",
+    element: <PageRegister />,
+    errorElement: <p>500</p>,
+  },
+  {
     path: "/tasks",
     element: <AuthGard children={<PageTasks />} />,
+    errorElement: <p>500</p>,
+  },
+  {
+    path: "/nouvelle-task",
+    element: <AuthGard children={<PageNouvelleTask />} />,
     errorElement: <p>500</p>,
   },
   {
